@@ -39,3 +39,20 @@ formatter.step({
 formatter.match({
   "location": "step_def.CampaignsSteps.iGoesToCategory()"
 });
+formatter.result({
+  "status": "passed"
+});
+formatter.step({
+  "name": "I write campaigns data to excel",
+  "keyword": "And "
+});
+formatter.match({
+  "location": "step_def.CampaignsSteps.iWriteCampaignsDataToExcelFor()"
+});
+formatter.result({
+  "status": "passed"
+});
+formatter.after({
+  "status": "passed"
+});
+});

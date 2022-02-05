@@ -20,49 +20,50 @@ public class CampaignsPage {
         //Get campaign tabs and add tabList
         List<WebElement> tabList = Driver.get().findElements(By.className("campPromTab"));
         List<String> tabNames = new ArrayList<>();
-        List<String> categryLinks = new ArrayList<>();
-        for (WebElement tab : tabList){
+        List<String> categoryLinks = new ArrayList<>();
+        for (WebElement tab : tabList) {
             tabNames = Arrays.asList(tab.getText().split("\n"));
-            for (int i=0;i< getCategories().size();i++){
-
-                for(int j=0; j< getCampaignList().size();j++){
-
-                    for(int k=0;k< getCampaignLinks().size();k++){
-
-                       categryLinks = Arrays.asList(getCampaignLinks().get(k).getAttribute("href"));
-                    }
-                }
-
-            }
-
         }
-                                 }
+    }
+
       public static List<WebElement> getCategories(){
           List<WebElement> categories = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]"));
           return categories;
         }
 
       public static List<WebElement> getCampaignList(){
-          List<WebElement> campaignList = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]/ul"));
+          List<WebElement> campaignList = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]/ul/li"));
           return campaignList;
       }
 
-      public static List<WebElement> getCampaignLinks(){
-          List<WebElement> campaignLinks = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]/ul/li/a"));
+      public static List<WebElement> getCampaignLinks(String category){
+          List<WebElement> campaignLinks = Driver.get().findElements(By.xpath("//section[contains(@class,\'"+category+"\')]/ul/li/a"));
           return campaignLinks;
       }
 
-      public static List<WebElement> getLinksByCampaign(){
-
-      }
-
       public static void writeCategoryNameAndLinks() throws IOException {
+        List<String> campaingCategoriesAndLinks = new ArrayList<>();
+
+        for(WebElement category : getCategories().subList(1,getCategories().size())){
+
+                for (WebElement campaign : getCampaignLinks(category.getAttribute("class"))) {
+                    Helper.clickWithSpanText(category.getText());
+                    System.out.println(category.getText() + " " + campaign.getAttribute("href"));
+                    campaingCategoriesAndLinks.add(category.getText() +" "+campaign.getAttribute("href"));
+
+                }
+        }
+
+        for(int i=0; i<campaingCategoriesAndLinks.size();i++){
+            ExcelUtils.writeToExcel("Campaigns",campaingCategoriesAndLinks,i,0);
+        }
+
+
 
       }
 
 }
 
-    //FIXIT - Kategorileri tek tek yazdırdık. Ancak isteneni yapabilmek için her linkin kategorisini bilerek eşleştirip excele yazdırılmalı.
 
 
 
