@@ -10,6 +10,6 @@ import org.junit.runner.RunWith;
         tags = "@main",
         dryRun = false
 )
-public class CucumberRunner {
+public class RunCucumberTest {
 
 }

@@ -15,27 +15,13 @@ import java.util.List;
 
 public class CampaignsPage {
 
-
-    public static void getTabs() {
-        //Get campaign tabs and add tabList
-        List<WebElement> tabList = Driver.get().findElements(By.className("campPromTab"));
-        List<String> tabNames = new ArrayList<>();
-        List<String> categoryLinks = new ArrayList<>();
-        for (WebElement tab : tabList) {
-            tabNames = Arrays.asList(tab.getText().split("\n"));
-        }
-    }
-
+      // Get categories section Moda,Elektronik etc.
       public static List<WebElement> getCategories(){
           List<WebElement> categories = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]"));
           return categories;
         }
 
-      public static List<WebElement> getCampaignList(){
-          List<WebElement> campaignList = Driver.get().findElements(By.xpath("//section[contains(@class,\"group category-\")]/ul/li"));
-          return campaignList;
-      }
-
+      // Get campaign links by category
       public static List<WebElement> getCampaignLinks(String category){
           List<WebElement> campaignLinks = Driver.get().findElements(By.xpath("//section[contains(@class,\'"+category+"\')]/ul/li/a"));
           return campaignLinks;
@@ -47,13 +33,14 @@ public class CampaignsPage {
         for(WebElement category : getCategories().subList(1,getCategories().size())){
 
                 for (WebElement campaign : getCampaignLinks(category.getAttribute("class"))) {
-                    Helper.clickWithSpanText(category.getText());
-                    System.out.println(category.getText() + " " + campaign.getAttribute("href"));
-                    campaingCategoriesAndLinks.add(category.getText() +" "+campaign.getAttribute("href"));
+                    Helper.clickWithSpanText(category.getText()); //Click category with spanText
 
+                    campaingCategoriesAndLinks.add(category.getText() +" "+campaign.getAttribute("href"));
+                    // Add category names and category links to campaignCategoriesAndLinks list.
                 }
         }
 
+        //WriteToExcel
         for(int i=0; i<campaingCategoriesAndLinks.size();i++){
             ExcelUtils.writeToExcel("Campaigns",campaingCategoriesAndLinks,i,0);
         }

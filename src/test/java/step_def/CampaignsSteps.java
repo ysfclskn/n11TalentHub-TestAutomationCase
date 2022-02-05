@@ -17,17 +17,8 @@ public class CampaignsSteps {
 
     }
 
-    @Then("I goes to category")
-    public void iGoesToCategory() {
-        campaignsPage.getTabs();
-
-    }
-
-
-
-    @And("I write campaigns data to excel")
-    public void iWriteCampaignsDataToExcelFor() throws IOException {
+    @Then("I goes to category and write campaign name and links to excel")
+    public void iGoesToCategoryAndWriteCampaignNameAndLinksToExcel() throws IOException {
         campaignsPage.writeCategoryNameAndLinks();
-
     }
 }
